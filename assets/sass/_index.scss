@@ -1,0 +1,138 @@
+//reset css
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+::selection {
+    color: #ffffff;
+    background-color: #6c70dc;
+}
+//start
+.home-bg {
+    background-color: #6e40c6;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+
+    .container {
+        display: grid;
+        grid-template-columns: 230px 750px;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+        min-height: 560px;
+        .sidebar {
+            background-color: #292d32;
+            position: relative;
+
+            .sidebar-menu {
+                display: flex;
+                flex-direction: column;
+                row-gap: 25px;
+                padding: 30px;
+                .item {
+                    background-color: transparent;
+                    border: none;
+                    font-size: 14px;
+                    color: #626c76;
+                    text-align: left;
+                    display: flex;
+                    align-items: center;
+                    column-gap: 12px;
+                    cursor: not-allowed;
+
+                    .number {
+                        width: 25px;
+                        height: 25px;
+                        font-size: 12px;
+                        font-weight: bold;
+                        border-radius: 50%;
+                        background-color: #4d545a;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        color: #ffffff;
+                    }
+                }
+
+                .item-active {
+                    color: #53d56c;
+                    cursor: pointer;
+                    .number {
+                        background-color: #53d56c;
+                    }
+                }
+                .item-confirm {
+                    cursor: pointer;
+                    color: #ffffff;
+                    .number {
+                        display: none;
+                        background-image: url(/assets/images/confirm-icon.svg);
+                    }
+                }
+            }
+
+            .sidebar-bottom {
+                width: 100%;
+                background-color: #ffffff1c;
+                height: 1px;
+                position: absolute;
+                bottom: 75px;
+            }
+        }
+        .content {
+            background-color: #f5f7fa;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            .content-top {
+                .tab-content {
+                    display: none;
+                    .header {
+                        display: flex;
+                        justify-content: space-between;
+                        padding: 19px 25px 14px 30px;
+                        border-bottom: 1px solid rgba(128, 128, 128, 0.177);
+                        .title {
+                            font-size: 18px;
+                            color: #292d32;
+                            font-weight: 500;
+                        }
+                        .close-btn {
+                            background-color: transparent;
+                            border: none;
+                        }
+                    }
+                }
+            }
+
+            .content-bottom {
+                display: flex;
+                align-items: center;
+                padding: 20px 30px;
+                background-color: white;
+                border-top: 1px solid rgba(128, 128, 128, 0.177);
+                .btn {
+                    border-radius: 2px;
+                    padding: 9px 14px;
+                    font-size: 12px;
+                    font-weight: bold;
+                    cursor: pointer;
+                }
+                .back-btn {
+                    background-color: #e3eaf3;
+                    color: #8f9ca7;
+                    border: 1px solid #8f9ca737;
+                    margin-right: auto;
+                }
+                .next-btn {
+                    background-color: #6c70dc;
+                    color: #ffffff;
+                    border: 1px solid #6c70dc;
+                    margin-left: auto;
+                }
+            }
+        }
+    }
+}
