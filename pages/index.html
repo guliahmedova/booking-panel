@@ -12,28 +12,36 @@
 <body>
 
     <div class="home-bg">
+
+        <div class="modal-container">
+            <div class="modal">
+                <button class="close-modal" id="closeModal"><img src="/assets/images/close-icon.svg" alt=""></button>
+                <p class="modal-text" id="modalText">Please, fill the all required fields!</p>
+            </div>
+        </div>
+
         <div class="container">
 
             <div class="sidebar">
                 <div class="sidebar-menu">
-                    <button class="item">
-                        <span class="number">1</span>
-                        <!-- <img src="/assets/images/confirm-icon.svg" class="confirm-img" alt=""> -->
+                    <button class="item" id="item-0">
+                        <span class="number" id="number-0">1</span>
+                        <img src="/assets/images/confirm-icon.svg" class="confirm-img" id="step-0" alt="">
                         Staff
                     </button>
-                    <button class="item">
-                        <span class="number">2</span>
-                        <!-- <img src="/assets/images/confirm-icon.svg" class="confirm-img" alt=""> -->
+                    <button class="item" id="item-1">
+                        <span class="number" id="number-1">2</span>
+                        <img src="/assets/images/confirm-icon.svg" class="confirm-img" id="step-1" alt="">
                         Service
                     </button>
-                    <button class="item">
-                        <span class="number">3</span>
-                        <!-- <img src="/assets/images/confirm-icon.svg" class="confirm-img" alt=""> -->
+                    <button class="item" id="item-2">
+                        <span class="number" id="number-2">3</span>
+                        <img src="/assets/images/confirm-icon.svg" class="confirm-img" id="step-2" alt="">
                         Date & Time
                     </button>
-                    <button class="item">
-                        <span class="number">4</span>
-                        <!-- <img src="/assets/images/confirm-icon.svg" class="confirm-img" alt=""> -->
+                    <button class="item" id="item-3">
+                        <span class="number" id="number-3">4</span>
+                        <img src="/assets/images/confirm-icon.svg" class="confirm-img" id="step-3" alt="">
                         Confirmation
                     </button>
                 </div>
@@ -68,7 +76,48 @@
                                 <img src="/assets/images/close-icon.svg" alt="">
                             </button>
                         </div>
-                        <div class="body" id="date&time-content"></div>
+                        <div class="body" id="dateandtime-content">
+                            <div class="date">
+                                <div class="date-header">
+                                    <button id="date-prev-btn"><img src="/assets/images/prev-icon.svg" alt=""></button>
+                                    <span class="calendar-header">August 2023</span>
+                                    <button id="date-next-btn"><img src="/assets/images/next-icon.svg" alt=""></button>
+                                </div>
+                                <div class="date-box">
+                                    <div class="weeks">
+                                        <span>Sun</span>
+                                        <span>Mon</span>
+                                        <span>Tue</span>
+                                        <span>Wed</span>
+                                        <span>Thu</span>
+                                        <span>Fri</span>
+                                        <span>Sat</span>
+                                    </div>
+
+                                    <div class="days" id="days"></div>
+                                </div>
+                            </div>
+                            <div class="time">
+                                <div class="time-header">Time</div>
+                                <div class="time-container">
+                                    <div class="title">Select date</div>
+                                    <div class="time-body">
+                                        <div class="time-card">
+                                            <span>09:00</span>
+                                            <span>09:30</span>
+                                        </div>
+                                        <div class="time-card time-card-active">
+                                            <span>09:00</span>
+                                            <span>09:30</span>
+                                        </div>
+                                        <div class="time-card">
+                                            <span>09:00</span>
+                                            <span>09:30</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="tab-content">
                         <div class="header">
@@ -77,14 +126,56 @@
                                 <img src="/assets/images/close-icon.svg" alt="">
                             </button>
                         </div>
-                        <div class="body" id="confirmation-content"></div>
+                        <div class="body" id="confirmation-content">
+                            <form action="#">
+                                <div class="form-group">
+                                    <label for="firstName">First name <span>*</span></label>
+                                    <input type="text" id="firstName">
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastName">Last name <span>*</span></label>
+                                    <input type="text" id="lastName">
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">E-mail <span>*</span></label>
+                                    <input type="email" id="email">
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone">Phone <span>*</span></label>
+                                    <input type="text" id="phone">
+                                </div>
+                            </form>
+
+                            <div class="note-sec">
+                                <h4 class="note-title">Note</h4>
+                                <div class="note-content">
+                                    <div class="item">
+                                        <span class="key">Staff: </span>
+                                        <span class="value">Alexy Rosetta</span>
+                                    </div>
+                                    <div class="item">
+                                        <span>Staff: </span>
+                                        <span>Alexy Rosetta</span>
+                                    </div>
+                                    <div class="item">
+                                        <span>Staff: </span>
+                                        <span>Alexy Rosetta</span>
+                                    </div>
+                                    <div class="item">
+                                        <span>Staff: </span>
+                                        <span>Alexy Rosetta</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <div class="content-bottom">
-                    <button class="back-btn btn" id="backBtn">Back</button>
-                    <div class="warning-text" id="warningMsg"><img id="warningImg" src='/assets/images/warning-icon.svg' alt=""></div>
-                    <button class="next-btn btn" id="nextBtn" onclick="handleNextBtn()">Next</button>
+                    <button class="back-btn btn" id="backBtn" onclick="BackBtnClick()">Back</button>
+                    <div class="warning-text" id="warningMsg"><img id="warningImg" src='/assets/images/warning-icon.svg'
+                            alt=""></div>
+                    <button class="next-btn btn" id="nextBtn" onclick="NextBtnClick()">Next</button>
                 </div>
 
             </div>
@@ -92,6 +183,7 @@
     </div>
 
     <script src="/assets/script/index.js"></script>
+    <script src="/assets/script/calendar.js"></script>
 </body>
 
 </html>
