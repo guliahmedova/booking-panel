@@ -16,7 +16,7 @@
 
             <div class="sidebar">
                 <div class="sidebar-menu">
-                    <button class="item item-active">
+                    <button class="item">
                         <span class="number">1</span>
                         <!-- <img src="/assets/images/confirm-icon.svg" class="confirm-img" alt=""> -->
                         Staff
@@ -43,48 +43,48 @@
             <div class="content">
 
                 <div class="content-top">
-                    <div class="tab-content staff-content">
+                    <div class="tab-content">
                         <div class="header">
                             <h1 class="title">Select staff</h1>
                             <button class="close-btn">
                                 <img src='/assets/images/close-icon.svg' alt="">
                             </button>
                         </div>
-                        <div class="body"></div>
+                        <div class="body cards" id="staff-content"></div>
                     </div>
-                    <div class="tab-content services-content">
+                    <div class="tab-content">
                         <div class="header">
                             <h1 class="title">Select service</h1>
                             <button class="close-btn">
                                 <img src="/assets/images/close-icon.svg" alt="">
                             </button>
                         </div>
-                        <div class="body"></div>
+                        <div class="body cards" id="services-content"></div>
                     </div>
-                    <div class="tab-content date&time-content">
+                    <div class="tab-content">
                         <div class="header">
                             <h1 class="title">Select date & time</h1>
                             <button class="close-btn">
                                 <img src="/assets/images/close-icon.svg" alt="">
                             </button>
                         </div>
-                        <div class="body"></div>
+                        <div class="body" id="date&time-content"></div>
                     </div>
-                    <div class="tab-content confirmation-content">
+                    <div class="tab-content">
                         <div class="header">
                             <h1 class="title">Select confirmation</h1>
                             <button class="close-btn">
                                 <img src="/assets/images/close-icon.svg" alt="">
                             </button>
                         </div>
-                        <div class="body"></div>
+                        <div class="body" id="confirmation-content"></div>
                     </div>
                 </div>
 
                 <div class="content-bottom">
                     <button class="back-btn btn" id="backBtn">Back</button>
-                    <!-- <div class="warning-text"><img src='/assets/images/warning-icon.svg' alt=""></div> -->
-                    <button class="next-btn btn" id="nextBtn">Next</button>
+                    <div class="warning-text" id="warningText"><img src='/assets/images/warning-icon.svg' alt=""></div>
+                    <button class="next-btn btn" id="nextBtn" onclick="handleNextBtn()">Next</button>
                 </div>
 
             </div>

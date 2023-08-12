@@ -102,9 +102,56 @@
   background-color: transparent;
   border: none;
 }
+.home-bg .container .content .content-top .tab-content #services-content .card {
+  justify-content: space-between;
+  flex-direction: row-reverse;
+}
+.home-bg .container .content .content-top .tab-content #services-content .card .price {
+  color: #4FBF65;
+  font-weight: 500;
+  font-size: 26px;
+}
+.home-bg .container .content .content-top .tab-content .cards {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+  padding: 25px 30px;
+}
+.home-bg .container .content .content-top .tab-content .cards .card {
+  display: flex;
+  background-color: white;
+  border-radius: 2px;
+  padding: 15px 20px;
+  align-items: center;
+  cursor: pointer;
+}
+.home-bg .container .content .content-top .tab-content .cards .card .right {
+  display: flex;
+  align-items: center;
+  column-gap: 22px;
+}
+.home-bg .container .content .content-top .tab-content .cards .card .right .card-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+.home-bg .container .content .content-top .tab-content .cards .card .right .text-container .card-title {
+  color: #292d32;
+  font-size: 14px;
+  font-weight: 600;
+}
+.home-bg .container .content .content-top .tab-content .cards .card .right .text-container .card-desc {
+  font-size: 12px;
+  color: #828f9a;
+}
+.home-bg .container .content .content-top .tab-content .cards .card-active {
+  border: 2px solid #53D56C;
+  transition: all 0.5s ease-in-out;
+}
 .home-bg .container .content .content-bottom {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 20px 30px;
   background-color: white;
   border-top: 1px solid rgba(128, 128, 128, 0.177);
@@ -127,4 +174,18 @@
   color: #ffffff;
   border: 1px solid #6c70dc;
   margin-left: auto;
+}
+.home-bg .container .content .content-bottom .warning-text {
+  display: flex;
+  align-items: center;
+  user-select: none;
+  font-weight: bold;
+  column-gap: 10px;
+  background-color: #f4be6c;
+  color: #ffffff;
+  font-size: 12px;
+  text-transform: uppercase;
+  border-radius: 2px;
+  padding: 12px 14px;
+  visibility: hidden;
 }
