@@ -116,6 +116,7 @@
   flex-direction: column;
   row-gap: 10px;
   padding: 25px 30px;
+  transition: all 0.5s ease-in-out;
 }
 .home-bg .container .content .content-top .tab-content .cards .card {
   display: flex;
@@ -155,6 +156,7 @@
   padding: 20px 30px;
   background-color: white;
   border-top: 1px solid rgba(128, 128, 128, 0.177);
+  height: 76px;
 }
 .home-bg .container .content .content-bottom .btn {
   border-radius: 2px;
@@ -187,5 +189,6 @@
   text-transform: uppercase;
   border-radius: 2px;
   padding: 12px 14px;
+  transition: all 0.5s ease-in-out;
   visibility: hidden;
 }

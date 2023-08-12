@@ -123,6 +123,7 @@
                         row-gap: 10px;
                         padding: 25px 30px;
 
+                        transition: all .5s ease-in-out;
                         .card {
                             display: flex;
                             background-color: white;
@@ -169,6 +170,8 @@
                 background-color: white;
                 border-top: 1px solid rgba(128, 128, 128, 0.177);
 
+                height: 76px;
+
                 .btn {
                     border-radius: 2px;
                     padding: 9px 14px;
@@ -200,6 +203,7 @@
                     text-transform: uppercase;
                     border-radius: 2px;
                     padding: 12px 14px;
+                    transition: all .5s ease-in-out;
                     visibility: hidden;
                 }
             }

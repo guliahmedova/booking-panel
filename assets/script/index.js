@@ -168,18 +168,29 @@ function createCard(cardData) {
 };
 
 function showErr(text) {
-    const warningMsg = document.getElementById('warningText');
-    warningMsg.textContent = 'Select' + text;
+    const warningMsg = document.getElementById('warningMsg');
+    const warningImg = document.getElementById('warningImg');
+
+    const textEl = document.createElement('span');
+    textEl.textContent = 'Select ' + text;
+
+    warningImg.insertAdjacentElement('afterend', textEl);
+    warningMsg.style.visibility = 'visible';
+};
+
+function hideErr(){
+    const warningMsg = document.getElementById('warningMsg');
+    warningMsg.style.visibility = 'hidden';
 };
 
 function handleNextBtn() {
     const isCardSelected = checkSteps(currentStep);
     const warningTexts = ['staff', 'service', 'date & time'];
 
-    console.log("next button working");
-    
     if (isCardSelected) {
+        hideErr();
         currentStep++;
+        console.log("next button working");
         updateStep();
     } else {
         showErr(warningTexts[currentStep]);
