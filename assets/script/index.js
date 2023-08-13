@@ -45,6 +45,7 @@ const time = [
         "end_time": "10:00"
     }
 ];
+const date = ["2022-03-04", "2022-03-05", "2022-03-06"];
 const result = {
     staff_id: null,
     service_id: null,
@@ -58,7 +59,7 @@ const result = {
     }
 };
 
-let currentStep = 0;
+let currentStep = 2;
 const tabContent = document.querySelectorAll('.content .content-top .tab-content');
 
 function renderStaffContent() {
@@ -93,11 +94,16 @@ function renderStaffContent() {
 
         card.appendChild(rightSideContent);
 
+        card.addEventListener('click', () => {
+            result.staff_id = item.id;
+        });
+
         staffContentBody.appendChild(card);
     });
 
+    const cards = document.querySelectorAll('#staff-content .card');
     updateContent();
-
+    handleCardClick(cards);
     const backBtn = document.getElementById('backBtn');
     backBtn.style.visibility = 'hidden';
 };
@@ -137,13 +143,18 @@ function renderServicesContent() {
         rightSideContent.classList.add('right');
         rightSideContent.append(image, cardTextContainer);
 
+        card.addEventListener('click', () => {
+            result.service_id = item.id;
+        });
+
         card.appendChild(rightSideContent);
 
         servicesContentBody.appendChild(card);
     });
 
+    const cards = document.querySelectorAll('#services-content .card');
     updateContent();
-
+    handleCardClick(cards);
     const backBtn = document.getElementById('backBtn');
     backBtn.style.visibility = 'visible';
 };
@@ -161,13 +172,12 @@ function renderConfirmationContent() {
 };
 
 function NextBtnClick() {
-    console.log();
     if (validateStep()) {
         currentStep++;
         markStepAfterConfirmed(currentStep - 1);
         if (tabContent[currentStep].children[1].childElementCount) {
             updateContent();
-        }else{
+        } else {
             renderContent();
         }
     };
@@ -184,7 +194,7 @@ function validateStep() {
     return true;
 };
 
-function markStepAfterConfirmed(step){
+function markStepAfterConfirmed(step) {
     const confirmMark = document.getElementById(`step-${step}`);
     const item = document.getElementById(`item-${step}`);
     const number = document.getElementById(`number-${step}`);
@@ -230,6 +240,118 @@ function updateContent() {
     });
 };
 
+function handleCardClick(datas) {
+    datas.forEach(item => {
+        item.addEventListener('click', () => {
+            datas.forEach(item => {
+                item.classList.remove('card-active');
+            });
+
+            item.classList.add('card-active');
+        });
+    });
+};
+
+
+
+//CALENDAR
+isLeapYear = (year) => {
+    return (year % 4 === 0 && year % 100 !== 0 && year % 400 !== 0) || (year % 100 === 0 && year % 400 === 0)
+};
+
+getFebDays = (year) => {
+    return isLeapYear(year) ? 29 : 28
+};
+
+const calendar = document.querySelector('.date');
+const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+let activeDays = [];
+
+function addActiveClassToActiveDates() {
+    const dayElements = document.querySelectorAll('#days .day');
+    for (const d of dayElements) {
+        for (const activeD of activeDays) {
+            if (d.getAttribute('data-day') == activeD) {
+                d.classList.add('active-day');
+            }
+        }
+    };
+};
+
+function handleActiveDateClick(){
+    const dayElements = document.querySelectorAll('#days .day');
+    dayElements.forEach(item => {
+        item.addEventListener('click', () => {
+            dayElements.forEach(item => {
+                item.classList.remove('active-click');
+            });
+            item.classList.add('active-click');
+        });
+    });
+};
+
+getActiveDays = () => {
+    for (let index = 0; index < date.length; index++) {
+        const dt = new Date(date[index]);
+        const element = dt.getDate();
+        activeDays.push(element);
+    };
+};
+getActiveDays();
+
+console.log(activeDays);
+
+generateCalendar = (month, year) => {
+    const calendarDays = document.getElementById('days');
+    calendarDays.innerHTML = '';
+    const calendarHeader = document.querySelector('.calendar-header');
+    const daysOfMonth = [31, getFebDays(year), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+    let currentDate = new Date();
+    if (!month) month = currentDate.getMonth();
+    if (!year) year = currentDate.getFullYear();
+
+    calendarHeader.innerHTML = `${months[month]} 2023`;
+
+    let firstDay = new Date(month, year, 1);
+
+    for (let index = 0; index <= daysOfMonth[month] + firstDay.getDay() - 1; index++) {
+        let day = document.createElement('span');
+        if (index >= firstDay.getDay()) {
+            day.classList.add('day');
+            day.innerHTML = index - firstDay.getDay() + 1;
+            day.dataset.day = index - firstDay.getDay() + 1;
+        }
+        calendarDays.appendChild(day);
+    };
+    addActiveClassToActiveDates();
+    handleActiveDateClick();
+};
+
+let currDate = new Date();
+let currMonth = {
+    value: currDate.getMonth()
+};
+let currYear = {
+    value: currDate.getFullYear()
+};
+
+document.querySelector('#date-prev-btn').onclick = () => {
+    --currMonth.value;
+    generateCalendar(currMonth.value, currYear.value);
+};
+document.querySelector('#date-next-btn').onclick = () => {
+    ++currMonth.value;
+    generateCalendar(currMonth.value, currYear.value);
+};
+
+generateCalendar(currMonth.value, currYear.value);
+//CALENDAR
+
+
+
 document.addEventListener('DOMContentLoaded', () => {
     renderContent();
+    addActiveClassToActiveDates();
 }); 

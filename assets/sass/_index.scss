@@ -177,6 +177,7 @@
                             border-radius: 2px;
                             padding: 15px 20px;
                             align-items: center;
+                            border: 2px solid white;
                             cursor: pointer;
                             .right {
                                 display: flex;
@@ -267,14 +268,18 @@
                                         align-items: center;
                                         justify-content: center;
                                         position: relative;
+                                        user-select: none;
+                                        pointer-events: none;
                                     }
                                     .active-day {
                                         color: #111111;
                                         cursor: pointer;
+                                        pointer-events:visible;
                                     }
                                     .active-click {
                                         background-color: #6c70dc;
                                         color: white;
+                                        transition: .1s all ease-out;
                                     }
                                 }
                             }

@@ -169,6 +169,7 @@
   border-radius: 2px;
   padding: 15px 20px;
   align-items: center;
+  border: 2px solid white;
   cursor: pointer;
 }
 .home-bg .container .content .content-top .tab-content .cards .card .right {
@@ -256,14 +257,18 @@
   align-items: center;
   justify-content: center;
   position: relative;
+  user-select: none;
+  pointer-events: none;
 }
 .home-bg .container .content .content-top .tab-content #dateandtime-content .date .date-box .days .active-day {
   color: #111111;
   cursor: pointer;
+  pointer-events: visible;
 }
 .home-bg .container .content .content-top .tab-content #dateandtime-content .date .date-box .days .active-click {
   background-color: #6c70dc;
   color: white;
+  transition: 0.1s all ease-out;
 }
 .home-bg .container .content .content-top .tab-content #dateandtime-content .time .time-header {
   text-align: center;
