@@ -58,7 +58,6 @@ const result = {
         phone: ''
     }
 };
-
 const note = {
     staff: "",
     service: "",
@@ -70,6 +69,15 @@ const note = {
 
 let currentStep = 0;
 const tabContent = document.querySelectorAll('.content .content-top .tab-content');
+
+let selectedStaffId = null;
+let selectedServiceId = null;
+let selectedDate = '';
+let selectedTime = '';
+let customerFirstName = '';
+let customerLastName = '';
+let customerEmail = '';
+let customerPhone = '';
 
 function renderStaffContent() {
     const staffContentBody = document.getElementById('staff-content');
@@ -104,7 +112,7 @@ function renderStaffContent() {
         card.appendChild(rightSideContent);
 
         card.addEventListener('click', () => {
-            result.staff_id = item.id;
+            selectedStaffId = item.id;
             note.staff = item.name;
         });
 
@@ -118,7 +126,6 @@ function renderStaffContent() {
     backBtn.style.visibility = 'hidden';
 
 };
-
 function renderServicesContent() {
     const servicesContentBody = document.getElementById('services-content');
     services.map(item => {
@@ -155,7 +162,7 @@ function renderServicesContent() {
         rightSideContent.append(image, cardTextContainer);
 
         card.addEventListener('click', () => {
-            result.service_id = item.id;
+            selectedServiceId = item.id;
             note.service = item.name;
             note.price = item.price;
         });
@@ -171,19 +178,19 @@ function renderServicesContent() {
     const backBtn = document.getElementById('backBtn');
     backBtn.style.visibility = 'visible';
 };
-
 function renderDateAndTimeContent() {
     updateContent();
     const backBtn = document.getElementById('backBtn');
     backBtn.style.visibility = 'visible';
 };
-
 function renderConfirmationContent() {
+    const formElement = document.getElementById('confirmation-form');
+    const firstNameInput= document.createElement('input');
+    formElement.appendChild(firstNameInput);
     updateContent();
     const backBtn = document.getElementById('backBtn');
     backBtn.style.visibility = 'visible';
 };
-
 function renderNote() {
     const staff = document.getElementById("note-staff");
     const service = document.getElementById("note-service");
@@ -195,17 +202,14 @@ function renderNote() {
     date.textContent = `${note.date} / ${note.start_time}-${note.end_time}`;
     price.textContent = '$' + note.price;
 };
-
 function NextBtnClick() {
     const nextBtn = document.getElementById('nextBtn');
-    console.log("note obj: ", note);
-    console.log("result: ", result);
     if (validateStep() && 3 >= currentStep) {
         currentStep++;
         if (currentStep === 3) {
             nextBtn.textContent = 'Confirm Booking';
             renderNote();
-        }
+        };
         markStepAfterConfirmed(currentStep - 1);
         if (tabContent[currentStep].children[1].childElementCount) {
             updateContent();
@@ -214,14 +218,12 @@ function NextBtnClick() {
         }
     };
 };
-
 function BackBtnClick() {
     if (currentStep > 0) {
         currentStep--;
         updateContent();
     };
 };
-
 function validateStep() {
     const warningMsg = document.getElementById('warningMsg');
     const warningImg = document.createElement('img');
@@ -231,15 +233,15 @@ function validateStep() {
 
     const modal = document.getElementById('modalContainer');
 
-    if (currentStep === 0 && result.staff_id === null) {
+    if (currentStep === 0 && selectedStaffId === null) {
         warningText.textContent = 'Select staff';
         warningMsg.append(warningImg, warningText);
         warningMsg.style.visibility = 'visible';
-    } else if (currentStep === 1 && result.service_id === null) {
+    } else if (currentStep === 1 && selectedServiceId === null) {
         warningText.textContent = 'Select Service';
         warningMsg.append(warningImg, warningText);
         warningMsg.style.visibility = 'visible';
-    } else if (currentStep === 2 && result.date === null) {
+    } else if (currentStep === 2 && selectedDate === '' && selectedTime === '') {
         warningText.textContent = 'Select Date & Time';
         console.log("date & time step");
         warningMsg.append(warningImg, warningText);
@@ -249,15 +251,13 @@ function validateStep() {
     } else {
         warningMsg.style.visibility = 'hidden';
         modal.style.display = 'none';
-        return true
+        return true;
     }
 };
-
 function closeModal() {
     const modal = document.getElementById('modalContainer');
     modal.style.display = 'none';
 };
-
 function markStepAfterConfirmed(step) {
     const confirmMark = document.getElementById(`step-${step}`);
     const item = document.getElementById(`item-${step}`);
@@ -266,7 +266,6 @@ function markStepAfterConfirmed(step) {
     number.style.display = 'none';
     confirmMark.style.display = 'inline';
 };
-
 function renderContent() {
     switch (currentStep) {
         case 0:
@@ -285,7 +284,6 @@ function renderContent() {
             break;
     }
 };
-
 function updateContent() {
     const sidebarItems = document.querySelectorAll('.sidebar .sidebar-menu .item');
     const confirmMark = document.getElementById(`step-${currentStep}`);
@@ -303,7 +301,6 @@ function updateContent() {
         }
     });
 };
-
 function handleCardClick(datas) {
     datas.forEach(item => {
         item.addEventListener('click', () => {
@@ -317,20 +314,15 @@ function handleCardClick(datas) {
     });
 };
 
-
-
 //CALENDAR
 isLeapYear = (year) => {
     return (year % 4 === 0 && year % 100 !== 0 && year % 400 !== 0) || (year % 100 === 0 && year % 400 === 0)
 };
-
 getFebDays = (year) => {
     return isLeapYear(year) ? 29 : 28
 };
-
 const calendar = document.querySelector('.date');
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-
 let activeDays = [];
 
 function addActiveClassToActiveDates() {
@@ -344,7 +336,6 @@ function addActiveClassToActiveDates() {
         }
     };
 };
-
 function renderTime() {
     const timeContainer = document.getElementById('timeBody');
     time.map(item => {
@@ -359,11 +350,14 @@ function renderTime() {
         endTimeSp.textContent = item.end_time;
         timeCard.dataset.end = item.end_time;
 
+        timeCard.addEventListener('click', () => {
+            selectedTime = item.end_time;
+        });
+
         timeCard.append(startTimeSp, endTimeSp);
         timeContainer.appendChild(timeCard);
     });
 };
-
 function handleTimeClick() {
     const timeElements = document.querySelectorAll('#timeBody .time-card');
     timeElements.forEach(item => {
@@ -374,14 +368,13 @@ function handleTimeClick() {
             item.classList.add('time-card-active');
             const endTime = item.getAttribute('data-end');
             const startTime = item.getAttribute('data-start');
-            result.time = endTime;
+            result.selectedTime = endTime;
             note.start_time = startTime;
             note.end_time = endTime;
             NextBtnClick();
         });
     });
 };
-
 function handleActiveDateClick() {
     const dayElements = document.querySelectorAll('#days .day');
     const timeBox = document.getElementById('timeBody');
@@ -393,16 +386,15 @@ function handleActiveDateClick() {
             });
             item.classList.add('active-click');
             timeBox.style.display = 'grid';
-            const selectEdDate = item.getAttribute('data-date');
-            timeTitle.textContent = selectEdDate;
-            result.date = selectEdDate;
-            note.date = selectEdDate;
+            const slctDate = item.getAttribute('data-date');
+            timeTitle.textContent = slctDate;
+            selectedDate = slctDate;
+            note.date = slctDate;
         });
     });
     renderTime();
     handleTimeClick();
 };
-
 getActiveDays = () => {
     for (let index = 0; index < date.length; index++) {
         const dt = new Date(date[index]);
@@ -411,7 +403,6 @@ getActiveDays = () => {
     };
 };
 getActiveDays();
-
 generateCalendar = (month, year) => {
     const calendarDays = document.getElementById('days');
     calendarDays.innerHTML = '';
@@ -458,7 +449,6 @@ document.querySelector('#date-next-btn').onclick = () => {
 
 generateCalendar(currMonth.value, currYear.value);
 //CALENDAR
-
 
 document.addEventListener('DOMContentLoaded', () => {
     renderContent();
