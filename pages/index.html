@@ -13,9 +13,9 @@
 
     <div class="home-bg">
 
-        <div class="modal-container">
+        <div class="modal-container" id="modalContainer">
             <div class="modal">
-                <button class="close-modal" id="closeModal"><img src="/assets/images/close-icon.svg" alt=""></button>
+                <button class="close-modal" onclick="closeModal()" id="closeModal"><img src="/assets/images/close-icon.svg" alt=""></button>
                 <p class="modal-text" id="modalText">Please, fill the all required fields!</p>
             </div>
         </div>
@@ -100,20 +100,8 @@
                             <div class="time">
                                 <div class="time-header">Time</div>
                                 <div class="time-container">
-                                    <div class="title">Select date</div>
-                                    <div class="time-body">
-                                        <div class="time-card">
-                                            <span>09:00</span>
-                                            <span>09:30</span>
-                                        </div>
-                                        <div class="time-card time-card-active">
-                                            <span>09:00</span>
-                                            <span>09:30</span>
-                                        </div>
-                                        <div class="time-card">
-                                            <span>09:00</span>
-                                            <span>09:30</span>
-                                        </div>
+                                    <div class="title" id="timeTitle">Select date</div>
+                                    <div class="time-body" id="timeBody">
                                     </div>
                                 </div>
                             </div>
@@ -151,19 +139,19 @@
                                 <div class="note-content">
                                     <div class="item">
                                         <span class="key">Staff: </span>
-                                        <span class="value">Alexy Rosetta</span>
+                                        <span class="value" id="note-staff">Alexy Rosetta</span>
                                     </div>
                                     <div class="item">
-                                        <span>Staff: </span>
-                                        <span>Alexy Rosetta</span>
+                                        <span class="key">Service: </span>
+                                        <span class="value" id="note-service">Alexy Rosetta</span>
                                     </div>
                                     <div class="item">
-                                        <span>Staff: </span>
-                                        <span>Alexy Rosetta</span>
+                                        <span class="key">Date: </span>
+                                        <span class="value" id="note-date">Alexy Rosetta</span>
                                     </div>
                                     <div class="item">
-                                        <span>Staff: </span>
-                                        <span>Alexy Rosetta</span>
+                                        <span class="key">Price:  </span>
+                                        <span class="value" id="note-price">Alexy Rosetta</span>
                                     </div>
                                 </div>
                             </div>
@@ -173,8 +161,7 @@
 
                 <div class="content-bottom">
                     <button class="back-btn btn" id="backBtn" onclick="BackBtnClick()">Back</button>
-                    <div class="warning-text" id="warningMsg"><img id="warningImg" src='/assets/images/warning-icon.svg'
-                            alt=""></div>
+                    <div class="warning-text" id="warningMsg"></div>
                     <button class="next-btn btn" id="nextBtn" onclick="NextBtnClick()">Next</button>
                 </div>
 

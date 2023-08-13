@@ -28,6 +28,8 @@
 
         display: none;
 
+        transition: all .5s ease-in-out;
+
         .modal {
             position: absolute;
             top: 0;
@@ -204,7 +206,7 @@
 
                         .card-active {
                             border: 2px solid #53d56c;
-                            transition: all 0.5s ease-in-out;
+                            transition: all 0.3s ease-in-out;
                         }
                     }
 
@@ -311,6 +313,9 @@
                                     place-items: center;
                                     padding: 12px 15px;
 
+                                    display: none;
+
+                                    transition: all .1s ease-in-out;
                                     .time-card {
                                         display: flex;
                                         flex-direction: column;
@@ -319,6 +324,7 @@
                                         border-radius: 2px;
                                         font-size: 14px;
                                         color: #111111;
+                                        cursor: pointer;
                                     }
                                     .time-card-active {
                                         background-color: #53d56c;
@@ -382,6 +388,9 @@
                                     .value {
                                         color: #111111;
                                     }
+                                    #note-price{
+                                        color: #4FBF65;
+                                    }
                                 }
                             }
                         }
@@ -410,12 +419,15 @@
                     color: #8f9ca7;
                     border: 1px solid #8f9ca737;
                     margin-right: auto;
+                    text-transform: uppercase;
                 }
                 .next-btn {
                     background-color: #6c70dc;
                     color: #ffffff;
                     border: 1px solid #6c70dc;
                     margin-left: auto;
+                    text-transform: uppercase;
+                    transition: all .2s ease-in-out;
                 }
                 .warning-text {
                     display: flex;

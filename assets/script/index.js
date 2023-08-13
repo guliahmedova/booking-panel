@@ -59,7 +59,16 @@ const result = {
     }
 };
 
-let currentStep = 2;
+const note = {
+    staff: "",
+    service: "",
+    date: "",
+    start_time: "",
+    end_time: "",
+    price: ""
+};
+
+let currentStep = 0;
 const tabContent = document.querySelectorAll('.content .content-top .tab-content');
 
 function renderStaffContent() {
@@ -96,6 +105,7 @@ function renderStaffContent() {
 
         card.addEventListener('click', () => {
             result.staff_id = item.id;
+            note.staff = item.name;
         });
 
         staffContentBody.appendChild(card);
@@ -106,6 +116,7 @@ function renderStaffContent() {
     handleCardClick(cards);
     const backBtn = document.getElementById('backBtn');
     backBtn.style.visibility = 'hidden';
+
 };
 
 function renderServicesContent() {
@@ -145,6 +156,8 @@ function renderServicesContent() {
 
         card.addEventListener('click', () => {
             result.service_id = item.id;
+            note.service = item.name;
+            note.price = item.price;
         });
 
         card.appendChild(rightSideContent);
@@ -171,9 +184,28 @@ function renderConfirmationContent() {
     backBtn.style.visibility = 'visible';
 };
 
+function renderNote() {
+    const staff = document.getElementById("note-staff");
+    const service = document.getElementById("note-service");
+    const date = document.getElementById("note-date");
+    const price = document.getElementById('note-price');
+
+    staff.textContent = note.staff;
+    service.textContent = note.service;
+    date.textContent = `${note.date} / ${note.start_time}-${note.end_time}`;
+    price.textContent = '$' + note.price;
+};
+
 function NextBtnClick() {
-    if (validateStep()) {
+    const nextBtn = document.getElementById('nextBtn');
+    console.log("note obj: ", note);
+    console.log("result: ", result);
+    if (validateStep() && 3 >= currentStep) {
         currentStep++;
+        if (currentStep === 3) {
+            nextBtn.textContent = 'Confirm Booking';
+            renderNote();
+        }
         markStepAfterConfirmed(currentStep - 1);
         if (tabContent[currentStep].children[1].childElementCount) {
             updateContent();
@@ -191,7 +223,39 @@ function BackBtnClick() {
 };
 
 function validateStep() {
-    return true;
+    const warningMsg = document.getElementById('warningMsg');
+    const warningImg = document.createElement('img');
+    const warningText = document.createElement('span');
+    warningImg.src = '../assets/images/warning-icon.svg';
+    warningImg.alt = '';
+
+    const modal = document.getElementById('modalContainer');
+
+    if (currentStep === 0 && result.staff_id === null) {
+        warningText.textContent = 'Select staff';
+        warningMsg.append(warningImg, warningText);
+        warningMsg.style.visibility = 'visible';
+    } else if (currentStep === 1 && result.service_id === null) {
+        warningText.textContent = 'Select Service';
+        warningMsg.append(warningImg, warningText);
+        warningMsg.style.visibility = 'visible';
+    } else if (currentStep === 2 && result.date === null) {
+        warningText.textContent = 'Select Date & Time';
+        console.log("date & time step");
+        warningMsg.append(warningImg, warningText);
+        warningMsg.style.visibility = 'visible';
+    } else if (currentStep === 3 && result.customer.name === '' && result.customer.surname === '' && result.customer.email === '' && result.customer.phone === '') {
+        modal.style.display = 'block';
+    } else {
+        warningMsg.style.visibility = 'hidden';
+        modal.style.display = 'none';
+        return true
+    }
+};
+
+function closeModal() {
+    const modal = document.getElementById('modalContainer');
+    modal.style.display = 'none';
 };
 
 function markStepAfterConfirmed(step) {
@@ -248,6 +312,7 @@ function handleCardClick(datas) {
             });
 
             item.classList.add('card-active');
+            NextBtnClick();
         });
     });
 };
@@ -271,24 +336,71 @@ let activeDays = [];
 function addActiveClassToActiveDates() {
     const dayElements = document.querySelectorAll('#days .day');
     for (const d of dayElements) {
-        for (const activeD of activeDays) {
-            if (d.getAttribute('data-day') == activeD) {
+        for (let index = 0; index < activeDays.length; index++) {
+            if (d.getAttribute('data-day') == activeDays[index]) {
                 d.classList.add('active-day');
+                d.dataset.date = date[index];
             }
         }
     };
 };
 
-function handleActiveDateClick(){
+function renderTime() {
+    const timeContainer = document.getElementById('timeBody');
+    time.map(item => {
+        const timeCard = document.createElement('div');
+        timeCard.classList.add('time-card');
+
+        const startTimeSp = document.createElement('span');
+        startTimeSp.textContent = item.start_time;
+        timeCard.dataset.start = item.start_time;
+
+        const endTimeSp = document.createElement('span');
+        endTimeSp.textContent = item.end_time;
+        timeCard.dataset.end = item.end_time;
+
+        timeCard.append(startTimeSp, endTimeSp);
+        timeContainer.appendChild(timeCard);
+    });
+};
+
+function handleTimeClick() {
+    const timeElements = document.querySelectorAll('#timeBody .time-card');
+    timeElements.forEach(item => {
+        item.addEventListener('click', () => {
+            timeElements.forEach(item => {
+                item.classList.remove('time-card-active');
+            });
+            item.classList.add('time-card-active');
+            const endTime = item.getAttribute('data-end');
+            const startTime = item.getAttribute('data-start');
+            result.time = endTime;
+            note.start_time = startTime;
+            note.end_time = endTime;
+            NextBtnClick();
+        });
+    });
+};
+
+function handleActiveDateClick() {
     const dayElements = document.querySelectorAll('#days .day');
+    const timeBox = document.getElementById('timeBody');
+    const timeTitle = document.getElementById('timeTitle');
     dayElements.forEach(item => {
         item.addEventListener('click', () => {
             dayElements.forEach(item => {
                 item.classList.remove('active-click');
             });
             item.classList.add('active-click');
+            timeBox.style.display = 'grid';
+            const selectEdDate = item.getAttribute('data-date');
+            timeTitle.textContent = selectEdDate;
+            result.date = selectEdDate;
+            note.date = selectEdDate;
         });
     });
+    renderTime();
+    handleTimeClick();
 };
 
 getActiveDays = () => {
@@ -299,8 +411,6 @@ getActiveDays = () => {
     };
 };
 getActiveDays();
-
-console.log(activeDays);
 
 generateCalendar = (month, year) => {
     const calendarDays = document.getElementById('days');
@@ -348,7 +458,6 @@ document.querySelector('#date-next-btn').onclick = () => {
 
 generateCalendar(currMonth.value, currYear.value);
 //CALENDAR
-
 
 
 document.addEventListener('DOMContentLoaded', () => {
