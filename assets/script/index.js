@@ -46,18 +46,7 @@ const time = [
     }
 ];
 const date = ["2022-03-04", "2022-03-05", "2022-03-06"];
-const result = {
-    staff_id: null,
-    service_id: null,
-    date: null,
-    time: null,
-    customer: {
-        name: '',
-        surname: '',
-        email: '',
-        phone: ''
-    }
-};
+
 const note = {
     staff: "",
     service: "",
@@ -74,10 +63,10 @@ let selectedStaffId = null;
 let selectedServiceId = null;
 let selectedDate = '';
 let selectedTime = '';
-let customerFirstName = '';
-let customerLastName = '';
-let customerEmail = '';
-let customerPhone = '';
+let selectedFirstName = null;
+let selectedLatName =  null;
+let selectedEmail =  null;
+let selectedPhone =  null;
 
 function renderStaffContent() {
     const staffContentBody = document.getElementById('staff-content');
@@ -184,9 +173,6 @@ function renderDateAndTimeContent() {
     backBtn.style.visibility = 'visible';
 };
 function renderConfirmationContent() {
-    const formElement = document.getElementById('confirmation-form');
-    const firstNameInput= document.createElement('input');
-    formElement.appendChild(firstNameInput);
     updateContent();
     const backBtn = document.getElementById('backBtn');
     backBtn.style.visibility = 'visible';
@@ -209,12 +195,13 @@ function NextBtnClick() {
         if (currentStep === 3) {
             nextBtn.textContent = 'Confirm Booking';
             renderNote();
+            endBooking();
         };
         markStepAfterConfirmed(currentStep - 1);
-        if (tabContent[currentStep].children[1].childElementCount) {
-            updateContent();
-        } else {
+        if (selectedStaffId === null || selectedServiceId === null) {
             renderContent();
+        } else {
+            updateContent();
         }
     };
 };
@@ -243,10 +230,9 @@ function validateStep() {
         warningMsg.style.visibility = 'visible';
     } else if (currentStep === 2 && selectedDate === '' && selectedTime === '') {
         warningText.textContent = 'Select Date & Time';
-        console.log("date & time step");
         warningMsg.append(warningImg, warningText);
         warningMsg.style.visibility = 'visible';
-    } else if (currentStep === 3 && result.customer.name === '' && result.customer.surname === '' && result.customer.email === '' && result.customer.phone === '') {
+    } else if (currentStep === 3 && selectedFirstName === null && selectedLatName === null && selectedEmail === null && selectedPhone === null) {
         modal.style.display = 'block';
     } else {
         warningMsg.style.visibility = 'hidden';
@@ -313,7 +299,47 @@ function handleCardClick(datas) {
         });
     });
 };
+function handleInputChanges(){
+    const firstName = document.getElementById("firstName").value;
+    const lastName = document.getElementById("lastName").value;
+    const phone = document.getElementById("phone").value;
+    const email = document.getElementById("email").value;
 
+    selectedFirstName = firstName;
+    selectedLatName = lastName;
+    selectedPhone = phone;
+    selectedEmail = email;
+};
+function bookingConfirm(){
+    const booking = {
+        staff_id: selectedStaffId,
+        service_id: selectedServiceId,
+        date: selectedDate,
+        time: selectedTime,
+        customer: {
+          name: selectedFirstName,
+          surname: selectedLatName,
+          email: selectedEmail,
+          phone: selectedPhone
+        }
+      };
+    console.log(booking);
+};
+function endBooking(){
+    const nextBtn = document.getElementById('nextBtn');
+    const modal = document.getElementById('modalContainer');
+    const modalText = document.getElementById("modalText");
+
+    nextBtn.addEventListener("click", ()=>{
+        if (validateStep()) {
+            bookingConfirm();
+            modalText.textContent = 'Confirmation successfully completed!';
+            modalText.style.color = '#38CF78';
+            modal.style.display = 'block';
+            currentStep = 0;
+        }
+    });
+};
 //CALENDAR
 isLeapYear = (year) => {
     return (year % 4 === 0 && year % 100 !== 0 && year % 400 !== 0) || (year % 100 === 0 && year % 400 === 0)
@@ -368,7 +394,7 @@ function handleTimeClick() {
             item.classList.add('time-card-active');
             const endTime = item.getAttribute('data-end');
             const startTime = item.getAttribute('data-start');
-            result.selectedTime = endTime;
+            selectedTime = endTime;
             note.start_time = startTime;
             note.end_time = endTime;
             NextBtnClick();
