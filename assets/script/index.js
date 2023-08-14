@@ -63,13 +63,16 @@ let selectedStaffId = null;
 let selectedServiceId = null;
 let selectedDate = '';
 let selectedTime = '';
-let selectedFirstName = null;
-let selectedLatName = null;
-let selectedEmail = null;
-let selectedPhone = null;
+let selectedFirstName = '';
+let selectedLatName = '';
+let selectedEmail = '';
+let selectedPhone = '';
 
 let isStaffRender = false;
 let isServiceRender = false;
+
+let isOkay = false;
+let isTimeRender = false;
 
 function renderStaffContent() {
     const staffContentBody = document.getElementById('staff-content');
@@ -197,17 +200,23 @@ function renderNote() {
 function NextBtnClick() {
     const nextBtn = document.getElementById('nextBtn');
     if (validateStep() && 3 >= currentStep) {
-        currentStep++;
+        if (currentStep !== 3) {
+            currentStep++;
+        };
         if (currentStep === 3) {
             nextBtn.textContent = 'Confirm Booking';
             renderNote();
-            endBooking();
+            if (isOkay) {
+                currentStep = 0;
+                bookingConfirm();
+                endBooking();
+            };
         };
         if (currentStep !== 0) {
             const backBtn = document.getElementById('backBtn');
             backBtn.style.visibility = 'visible';
         }
-        markStepAfterConfirmed(currentStep - 1);
+        markStepAfterConfirmed(currentStep && currentStep - 1);
         if (!isStaffRender) {
             renderStaffContent();
         } else if (!isServiceRender) {
@@ -238,20 +247,44 @@ function validateStep() {
     const modal = document.getElementById('modalContainer');
 
     if (currentStep === 0 && selectedStaffId === null) {
-        warningText.textContent = 'Select staff';
-        warningMsg.append(warningImg, warningText);
-        warningMsg.style.visibility = 'visible';
+        if (warningMsg.style.visibility !== 'visible') {
+            warningText.textContent = 'Select staff';
+            warningMsg.append(warningImg, warningText);
+            warningMsg.style.visibility = 'visible';
+        };
     } else if (currentStep === 1 && selectedServiceId === null) {
-        warningText.textContent = 'Select Service';
-        warningMsg.append(warningImg, warningText);
-        warningMsg.style.visibility = 'visible';
-    } else if (currentStep === 2 && selectedDate === '' && selectedTime === '') {
-        warningText.textContent = 'Select Date & Time';
-        warningMsg.append(warningImg, warningText);
-        warningMsg.style.visibility = 'visible';
-    } else if (currentStep === 3 && selectedFirstName === null && selectedLatName === null && selectedEmail === null && selectedPhone === null) {
+        if (warningMsg.style.visibility !== 'visible') {
+            warningText.textContent = 'Select Service';
+            warningMsg.append(warningImg, warningText);
+            warningMsg.style.visibility = 'visible';
+        }
+    } else if (currentStep === 2 && selectedTime === '') {
+        if (warningMsg.style.visibility !== 'visible') {
+            warningText.textContent = 'Select Date & Time';
+            warningMsg.append(warningImg, warningText);
+            warningMsg.style.visibility = 'visible';
+        }
+    } else if (currentStep === 2 && selectedDate === '') {
+        if (warningMsg.style.visibility !== 'visible') {
+            warningText.textContent = 'Select Date & Time';
+            warningMsg.append(warningImg, warningText);
+            warningMsg.style.visibility = 'visible';
+        }
+    }
+    else if (currentStep === 3 && selectedFirstName === '') {
         modal.style.display = 'block';
-    } else {
+    } else if (currentStep === 3 && selectedLatName === '') {
+        modal.style.display = 'block';
+    } else if (currentStep === 3 && selectedEmail === '') {
+        modal.style.display = 'block';
+    } else if (currentStep === 3 && selectedPhone === '') {
+        modal.style.display = 'block';
+    }
+    else if (currentStep === 3 && selectedFirstName !== '' && selectedLatName !== '' && selectedEmail !== '' && selectedPhone !== '') {
+        isOkay = true;
+        return true;
+    }
+    else {
         warningMsg.style.visibility = 'hidden';
         modal.style.display = 'none';
         warningMsg.innerHTML = '';
@@ -300,7 +333,7 @@ function updateContent() {
     if (currentStep === 0) {
         const backBtn = document.getElementById('backBtn');
         backBtn.style.visibility = 'hidden';
-    }else{
+    } else {
         const backBtn = document.getElementById('backBtn');
         backBtn.style.visibility = 'viisble';
     }
@@ -369,49 +402,42 @@ function endBooking() {
     if (currentStep === 0) {
         const backBtn = document.getElementById('backBtn');
         backBtn.style.visibility = 'hidden';
-    }
+    };
 
-    nextBtn.addEventListener("click", () => {
-        if (validateStep()) {
-            bookingConfirm();
-            currentStep = 0;
-            modalText.textContent = 'Confirmation successfully completed!';
-            modalText.style.color = '#38CF78';
-            modal.style.display = 'block';
-        }
-        servicesContentBody.innerHTML = '';
-        staffContentBody.innerHTML = '';
-        nextBtn.textContent = 'Next';
+    currentStep = 0;
+    modalText.textContent = 'Confirmation successfully completed!';
+    modalText.style.color = '#38CF78';
+    modal.style.display = 'block';
+    servicesContentBody.innerHTML = '';
+    staffContentBody.innerHTML = '';
+    nextBtn.textContent = 'Next';
 
-        selectedStaffId = null;
-        selectedServiceId = null;
-        selectedDate = '';
-        selectedTime = '';
-        selectedFirstName = null;
-        selectedLatName = null;
-        selectedEmail = null;
-        selectedPhone = null;
+    selectedStaffId = null;
+    selectedServiceId = null;
+    selectedDate = '';
+    selectedTime = '';
+    selectedFirstName = '';
+    selectedLatName = '';
+    selectedEmail = '';
+    selectedPhone = '';
 
-        isStaffRender = false;
-        isServiceRender = false;
+    isStaffRender = false;
+    isServiceRender = false;
 
-        console.log(currentStep);
-
-        itemNumber.forEach(item => {
-            item.style.display = 'flex';
-        });
-
-        itemImg.forEach(item => {
-            item.style.display = 'none';
-        });
-
-        sidebarItems.forEach(item => {
-            item.classList.remove('item-active');
-        });
-
-        renderContent();
-        generateCalendar();
+    itemNumber.forEach(item => {
+        item.style.display = 'flex';
     });
+
+    itemImg.forEach(item => {
+        item.style.display = 'none';
+    });
+
+    sidebarItems.forEach(item => {
+        item.classList.remove('item-active');
+    });
+
+    renderContent();
+    generateCalendar();
 };
 
 //CALENDAR
@@ -457,6 +483,7 @@ function renderTime() {
         timeCard.append(startTimeSp, endTimeSp);
         timeContainer.appendChild(timeCard);
     });
+    isTimeRender = true;
 };
 function handleTimeClick() {
     const timeElements = document.querySelectorAll('#timeBody .time-card');
@@ -492,8 +519,10 @@ function handleActiveDateClick() {
             note.date = slctDate;
         });
     });
-    renderTime();
-    handleTimeClick();
+    if (!isTimeRender) {
+        renderTime();
+        handleTimeClick();
+    };
 };
 getActiveDays = () => {
     for (let index = 0; index < date.length; index++) {
