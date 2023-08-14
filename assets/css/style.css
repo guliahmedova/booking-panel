@@ -16,7 +16,6 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  width: 100%;
   position: relative;
 }
 .home-bg .modal-container {
@@ -57,8 +56,8 @@
   color: #f39c12;
   user-select: none;
 }
-.home-bg .modal-container .modal .modal-text-confirm {
-  color: #38CF78;
+.home-bg .modal-container .modal #confirmText {
+  color: #38cf78;
 }
 .home-bg .container {
   display: grid;
@@ -369,7 +368,7 @@
   color: #111111;
 }
 .home-bg .container .content .content-top .tab-content #confirmation-content .note-sec .note-content .item #note-price {
-  color: #4FBF65;
+  color: #4fbf65;
 }
 .home-bg .container .content .content-bottom {
   display: flex;
@@ -414,6 +413,48 @@
   text-transform: uppercase;
   border-radius: 2px;
   padding: 12px 14px;
-  transition: all 0.5s ease-in-out;
   visibility: hidden;
+}
+
+@media only screen and (max-width: 1000px) {
+  .home-bg .container {
+    width: 92%;
+    height: 530px;
+    margin: auto;
+    grid-template-columns: 200px 720px;
+  }
+}
+@media only screen and (max-width: 970px) {
+  .home-bg .container {
+    width: 92%;
+    height: auto;
+    margin: auto;
+    display: flex;
+  }
+  .home-bg .container .sidebar {
+    width: auto;
+  }
+  .home-bg .container .content {
+    width: 100%;
+  }
+  .home-bg .container .content .content-top .tab-content #services-content .card .price {
+    transition: 0.5s all ease-in-out;
+    font-size: 24px;
+  }
+  .home-bg .sidebar .sidebar-bottom {
+    display: none;
+  }
+}
+@media only screen and (max-width: 660px) {
+  .home-bg .container .content .content-top .tab-content #services-content .card .price {
+    transition: 0.5s all ease-in-out;
+    font-size: 20px;
+  }
+}
+@media only screen and (max-width: 590px) {
+  .home-bg .container .content .content-top .tab-content #services-content .card {
+    flex-direction: column-reverse;
+    align-items: start;
+    row-gap: 20px;
+  }
 }

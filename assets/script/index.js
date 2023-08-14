@@ -64,9 +64,12 @@ let selectedServiceId = null;
 let selectedDate = '';
 let selectedTime = '';
 let selectedFirstName = null;
-let selectedLatName =  null;
-let selectedEmail =  null;
-let selectedPhone =  null;
+let selectedLatName = null;
+let selectedEmail = null;
+let selectedPhone = null;
+
+let isStaffRender = false;
+let isServiceRender = false;
 
 function renderStaffContent() {
     const staffContentBody = document.getElementById('staff-content');
@@ -108,12 +111,13 @@ function renderStaffContent() {
         staffContentBody.appendChild(card);
     });
 
+    isStaffRender = true;
+
     const cards = document.querySelectorAll('#staff-content .card');
     updateContent();
     handleCardClick(cards);
     const backBtn = document.getElementById('backBtn');
     backBtn.style.visibility = 'hidden';
-
 };
 function renderServicesContent() {
     const servicesContentBody = document.getElementById('services-content');
@@ -161,6 +165,8 @@ function renderServicesContent() {
         servicesContentBody.appendChild(card);
     });
 
+    isServiceRender = true;
+
     const cards = document.querySelectorAll('#services-content .card');
     updateContent();
     handleCardClick(cards);
@@ -197,17 +203,28 @@ function NextBtnClick() {
             renderNote();
             endBooking();
         };
-        markStepAfterConfirmed(currentStep - 1);
-        if (selectedStaffId === null || selectedServiceId === null) {
-            renderContent();
-        } else {
-            updateContent();
+        if (currentStep !== 0) {
+            const backBtn = document.getElementById('backBtn');
+            backBtn.style.visibility = 'visible';
         }
+        markStepAfterConfirmed(currentStep - 1);
+        if (!isStaffRender) {
+            renderStaffContent();
+        } else if (!isServiceRender) {
+            renderServicesContent();
+        }
+        else {
+            updateContent();
+        };
     };
 };
 function BackBtnClick() {
+    const nextBtn = document.getElementById('nextBtn');
     if (currentStep > 0) {
         currentStep--;
+        if (currentStep === 2) {
+            nextBtn.textContent = 'Next';
+        };
         updateContent();
     };
 };
@@ -237,12 +254,17 @@ function validateStep() {
     } else {
         warningMsg.style.visibility = 'hidden';
         modal.style.display = 'none';
+        warningMsg.innerHTML = '';
         return true;
-    }
+    };
 };
 function closeModal() {
     const modal = document.getElementById('modalContainer');
     modal.style.display = 'none';
+
+    if (currentStep === 0) {
+        window.location.reload();
+    };
 };
 function markStepAfterConfirmed(step) {
     const confirmMark = document.getElementById(`step-${step}`);
@@ -275,6 +297,14 @@ function updateContent() {
     const confirmMark = document.getElementById(`step-${currentStep}`);
     const number = document.getElementById(`number-${currentStep}`);
 
+    if (currentStep === 0) {
+        const backBtn = document.getElementById('backBtn');
+        backBtn.style.visibility = 'hidden';
+    }else{
+        const backBtn = document.getElementById('backBtn');
+        backBtn.style.visibility = 'viisble';
+    }
+
     sidebarItems.forEach((item, index) => {
         if (index === currentStep) {
             item.classList.add('item-active');
@@ -299,7 +329,7 @@ function handleCardClick(datas) {
         });
     });
 };
-function handleInputChanges(){
+function handleInputChanges() {
     const firstName = document.getElementById("firstName").value;
     const lastName = document.getElementById("lastName").value;
     const phone = document.getElementById("phone").value;
@@ -310,36 +340,80 @@ function handleInputChanges(){
     selectedPhone = phone;
     selectedEmail = email;
 };
-function bookingConfirm(){
+function bookingConfirm() {
     const booking = {
         staff_id: selectedStaffId,
         service_id: selectedServiceId,
         date: selectedDate,
         time: selectedTime,
         customer: {
-          name: selectedFirstName,
-          surname: selectedLatName,
-          email: selectedEmail,
-          phone: selectedPhone
+            name: selectedFirstName,
+            surname: selectedLatName,
+            email: selectedEmail,
+            phone: selectedPhone
         }
-      };
+    };
     console.log(booking);
 };
-function endBooking(){
+function endBooking() {
     const nextBtn = document.getElementById('nextBtn');
     const modal = document.getElementById('modalContainer');
     const modalText = document.getElementById("modalText");
+    const servicesContentBody = document.getElementById('services-content');
+    const staffContentBody = document.getElementById('staff-content');
 
-    nextBtn.addEventListener("click", ()=>{
+    const sidebarItems = document.querySelectorAll('.sidebar .sidebar-menu .item');
+    const itemNumber = document.querySelectorAll('.sidebar .sidebar-menu .number');
+    const itemImg = document.querySelectorAll('.sidebar .sidebar-menu .confirm-img');
+
+    if (currentStep === 0) {
+        const backBtn = document.getElementById('backBtn');
+        backBtn.style.visibility = 'hidden';
+    }
+
+    nextBtn.addEventListener("click", () => {
         if (validateStep()) {
             bookingConfirm();
+            currentStep = 0;
             modalText.textContent = 'Confirmation successfully completed!';
             modalText.style.color = '#38CF78';
             modal.style.display = 'block';
-            currentStep = 0;
         }
+        servicesContentBody.innerHTML = '';
+        staffContentBody.innerHTML = '';
+        nextBtn.textContent = 'Next';
+
+        selectedStaffId = null;
+        selectedServiceId = null;
+        selectedDate = '';
+        selectedTime = '';
+        selectedFirstName = null;
+        selectedLatName = null;
+        selectedEmail = null;
+        selectedPhone = null;
+
+        isStaffRender = false;
+        isServiceRender = false;
+
+        console.log(currentStep);
+
+        itemNumber.forEach(item => {
+            item.style.display = 'flex';
+        });
+
+        itemImg.forEach(item => {
+            item.style.display = 'none';
+        });
+
+        sidebarItems.forEach(item => {
+            item.classList.remove('item-active');
+        });
+
+        renderContent();
+        generateCalendar();
     });
 };
+
 //CALENDAR
 isLeapYear = (year) => {
     return (year % 4 === 0 && year % 100 !== 0 && year % 400 !== 0) || (year % 100 === 0 && year % 400 === 0)

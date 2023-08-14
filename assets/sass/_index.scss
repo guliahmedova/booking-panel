@@ -16,7 +16,6 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    width: 100%;
     position: relative;
 
     .modal-container {
@@ -28,7 +27,7 @@
 
         display: none;
 
-        transition: all .5s ease-in-out;
+        transition: all 0.5s ease-in-out;
 
         .modal {
             position: absolute;
@@ -58,8 +57,8 @@
                 color: #f39c12;
                 user-select: none;
             }
-            #confirmText{
-                color: #38CF78;
+            #confirmText {
+                color: #38cf78;
             }
         }
     }
@@ -276,12 +275,12 @@
                                     .active-day {
                                         color: #111111;
                                         cursor: pointer;
-                                        pointer-events:visible;
+                                        pointer-events: visible;
                                     }
                                     .active-click {
                                         background-color: #6c70dc;
                                         color: white;
-                                        transition: .1s all ease-out;
+                                        transition: 0.1s all ease-out;
                                     }
                                 }
                             }
@@ -315,7 +314,7 @@
 
                                     display: none;
 
-                                    transition: all .1s ease-in-out;
+                                    transition: all 0.1s ease-in-out;
                                     .time-card {
                                         display: flex;
                                         flex-direction: column;
@@ -388,8 +387,8 @@
                                     .value {
                                         color: #111111;
                                     }
-                                    #note-price{
-                                        color: #4FBF65;
+                                    #note-price {
+                                        color: #4fbf65;
                                     }
                                 }
                             }
@@ -427,7 +426,7 @@
                     border: 1px solid #6c70dc;
                     margin-left: auto;
                     text-transform: uppercase;
-                    transition: all .2s ease-in-out;
+                    transition: all 0.2s ease-in-out;
                 }
                 .warning-text {
                     display: flex;
@@ -441,8 +440,91 @@
                     text-transform: uppercase;
                     border-radius: 2px;
                     padding: 12px 14px;
-                    transition: all 0.5s ease-in-out;
                     visibility: hidden;
+                }
+            }
+        }
+    }
+}
+
+//responsive
+@media only screen and (max-width: 1000px) {
+    .home-bg {
+        .container {
+            width: 92%;
+            height: 530px;
+            margin: auto;
+            grid-template-columns: 200px 720px;
+        }
+    }
+}
+@media only screen and (max-width: 970px) {
+    .home-bg {
+        .container {
+            width: 92%;
+            height: auto;
+            margin: auto;
+            display: flex;
+            .sidebar {
+                width: auto;
+            }
+            .content {
+                width: 100%;
+                .content-top{
+                    .tab-content{
+                        #services-content{
+                            .card{
+                                .price{
+                                    transition: .5s all ease-in-out;
+                                    font-size: 24px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .sidebar {
+            .sidebar-bottom {
+                display: none;
+            }
+        }
+    }
+}
+@media only screen and (max-width: 660px) {
+    .home-bg{
+        .container{
+            .content {
+                .content-top{
+                    .tab-content{
+                        #services-content{
+                            .card{
+                                .price{
+                                    transition: .5s all ease-in-out;
+                                    font-size: 20px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+@media only screen and (max-width: 590px) {
+    .home-bg{
+        .container{
+            .content {
+                .content-top{
+                    .tab-content{
+                        #services-content{
+                            .card{
+                                flex-direction: column-reverse;  
+                                align-items: start;
+                                row-gap: 20px;
+                            }
+                        }
+                    }
                 }
             }
         }
